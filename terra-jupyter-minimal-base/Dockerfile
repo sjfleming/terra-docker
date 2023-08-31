@@ -85,7 +85,8 @@ RUN useradd -m -s /bin/bash $USER \
  && ln -s $GCLOUD_DIR/google-cloud-sdk/bin/bq /usr/bin/bq \
  && ln -s $GCLOUD_DIR/google-cloud-sdk/bin/docker-credential-gcloud /usr/bin/docker-credential-gcloud \
  && ln -s $GCLOUD_DIR/google-cloud-sdk/bin/gcloud /usr/bin/gcloud \
- # creates the directory $HOME/.config/gcloud/configurations
+ # creates the directory $HOME/.config/gcloud/configurations \
+ && conda install -y -c conda-forge crcmod \
  && gsutil version -l \
  && chown -R $USER:users $HOME/.conda \
  && chown -R $USER:users $HOME/.config/gcloud \
