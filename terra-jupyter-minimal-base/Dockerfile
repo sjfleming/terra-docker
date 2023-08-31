@@ -78,7 +78,7 @@ RUN useradd -m -s /bin/bash $USER \
  && curl -so $GCLOUD_DIR/google-cloud-cli.tar.gz \
     https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-cli-${GOOGLE_CLOUD_CLI_VERSION}-linux-x86_64.tar.gz \
  && tar -xzf $GCLOUD_DIR/google-cloud-cli.tar.gz -C $GCLOUD_DIR \
- && .$GCLOUD_DIR/google-cloud-sdk/install.sh --usage-reporting false --rc-path $HOME/.bashrc \
+ && .$GCLOUD_DIR/google-cloud-sdk/install.sh --install-python false --usage-reporting false --rc-path $HOME/.bashrc \
  # manual symlinks since .bashrc is not getting sourced and PATH is getting overwritten in Terra Cloud Environment
  && ln -s $GCLOUD_DIR/google-cloud-sdk/bin/gsutil /usr/bin/gsutil \
  && ln -s $GCLOUD_DIR/google-cloud-sdk/bin/anthoscli /usr/bin/anthoscli \
@@ -111,8 +111,8 @@ RUN useradd -m -s /bin/bash $USER \
     https://raw.githubusercontent.com/broadinstitute/cromwhelm/1ceedf89587cffd355f37401b179001f029f77ed/scripts/workspace_cromwell.py \
  && chmod +x /usr/local/bin/workspace_cromwell.py \
 # Mamba
- && conda install -y -c conda-forge libarchive==3.6.2 requests==2.31.0 \
  && conda install -y -c conda-forge mamba==1.5.0 \
+ && conda install -y -c conda-forge libarchive==3.6.2 requests==2.31.0 \
 # Cleanup
  && rm -rf ~/.cache/pip \
  && conda clean -yaf \
