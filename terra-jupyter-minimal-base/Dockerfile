@@ -38,10 +38,10 @@ RUN useradd -m -s /bin/bash $USER \
  && apt-get update && apt-get install -yq --no-install-recommends \
     sudo \
  && sudo -i \
-    echo "deb http://security.ubuntu.com/ubuntu/ bionic main" >> /etc/apt/sources.list \
+    echo "deb http://security.ubuntu.com/ubuntu/ focal main" >> /etc/apt/sources.list \
     sudo apt update libexempi3 \
  && sudo -i \
-    echo "deb http://us.archive.ubuntu.com/ubuntu/ bionic universe" >> /etc/apt/sources.list \
+    echo "deb http://us.archive.ubuntu.com/ubuntu/ focal universe" >> /etc/apt/sources.list \
     sudo apt update libv8-3.14-dev \
  && apt-get update && apt-get install -yq --no-install-recommends \
     # gnupg requirement
