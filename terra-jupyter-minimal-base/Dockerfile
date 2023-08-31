@@ -69,7 +69,7 @@ RUN useradd -m -s /bin/bash $USER \
  && apt-get clean \
  && rm -rf /var/lib/apt/lists/* \
 # Install miniconda to $CONDA_DIR
- && curl -so $HOME/miniconda.sh https://repo.anaconda.com/miniconda/Miniconda3-py37_4.12.0-Linux-x86_64.sh \
+ && curl -so $HOME/miniconda.sh https://repo.anaconda.com/miniconda/Miniconda3-py310_23.5.1-0-Linux-x86_64.sh \
  && chmod +x $HOME/miniconda.sh \
  && $HOME/miniconda.sh -b -p $CONDA_DIR \
  && rm $HOME/miniconda.sh \
@@ -110,12 +110,18 @@ RUN useradd -m -s /bin/bash $USER \
     https://raw.githubusercontent.com/broadinstitute/cromwhelm/1ceedf89587cffd355f37401b179001f029f77ed/scripts/workspace_cromwell.py \
  && chmod +x /usr/local/bin/workspace_cromwell.py \
 # Cromshell 2.0
- && git clone --branch cromshell_2.0 --single-branch \
+ && git clone --branch 2.0.0 --single-branch \
     https://github.com/broadinstitute/cromshell.git $HOME/cromshell \
  && pip3 install $HOME/cromshell \
  && rm -rf ~/.cache/pip \
  && conda clean -yaf \
  && chown -R $USER:users $CONDA_DIR
+
+# Mamba
+RUN conda install -y mamba -c conda-forge \
+ && pip3 install -U requests \
+ && rm -rf ~/.cache/pip \
+ && conda clean -yaf
 
 # Utilities
 COPY scripts $JUPYTER_HOME/scripts

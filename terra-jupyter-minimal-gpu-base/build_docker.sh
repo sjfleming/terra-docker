@@ -1,6 +1,6 @@
 #!/bin/bash
 
-base="nvcr.io/nvidia/cuda:11.3.1-base-ubuntu20.04"
+base="nvcr.io/nvidia/cuda:11.8.0-base-ubuntu20.04"
 
 cp -r ../terra-jupyter-base/custom ../terra-jupyter-minimal-base/custom
 cp -r ../terra-jupyter-base/scripts ../terra-jupyter-minimal-base/scripts
