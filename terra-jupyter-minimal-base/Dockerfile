@@ -10,7 +10,7 @@ USER root
 # files display nicer when viewed in a terminal.
 ENV DEBIAN_FRONTEND=noninteractive \
     LC_ALL=en_US.UTF-8 \
-    GOOGLE_CLOUD_CLI_VERSION="397.0.0" \
+    GOOGLE_CLOUD_CLI_VERSION="444.0.0" \
     USER=jupyter \
     WELDER_USER=welder-user \
     WELDER_UID=1001 \
@@ -113,15 +113,12 @@ RUN useradd -m -s /bin/bash $USER \
  && git clone --branch 2.0.0 --single-branch \
     https://github.com/broadinstitute/cromshell.git $HOME/cromshell \
  && pip3 install $HOME/cromshell \
+# Mamba
+ && conda install -y mamba -c conda-forge \
+ && pip3 install -U requests \
  && rm -rf ~/.cache/pip \
  && conda clean -yaf \
  && chown -R $USER:users $CONDA_DIR
-
-# Mamba
-RUN conda install -y mamba -c conda-forge \
- && pip3 install -U requests \
- && rm -rf ~/.cache/pip \
- && conda clean -yaf
 
 # Utilities
 COPY scripts $JUPYTER_HOME/scripts
