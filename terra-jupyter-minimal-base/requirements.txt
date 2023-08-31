@@ -7,5 +7,4 @@ jupyter_nbextensions_configurator==0.6.3
 markupsafe==2.1.2
 nbconvert==7.2.9
 nbclassic<0.5
-requests==2.31.0
 cromshell==2.0.0
