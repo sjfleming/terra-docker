@@ -7,7 +7,7 @@ cp -r ../terra-jupyter-base/scripts ../terra-jupyter-minimal-base/scripts
 cp -r ../terra-jupyter-base/jupyter_notebook_config.py ../terra-jupyter-minimal-base/jupyter_notebook_config.py
 
 docker build \
-  -t terra-jupyter-minimal-gpu-base:0.0.1 \
+  -t terra-jupyter-minimal-gpu-base:0.0.2 \
   -f ../terra-jupyter-minimal-base/Dockerfile \
   --build-arg BASE_IMAGE=${base} \
   ../terra-jupyter-minimal-base/
