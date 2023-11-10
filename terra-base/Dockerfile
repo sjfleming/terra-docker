@@ -90,7 +90,7 @@ RUN curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key --keyri
 RUN curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -
 
 # Install Node >18 (needed for jupyterlab)
-RUN apt-get update && apt-get install -yq --no-install-recommends 
+#RUN apt-get update && apt-get install -yq --no-install-recommends
 RUN mkdir -p /etc/apt/keyrings
 RUN curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg
 
@@ -103,16 +103,28 @@ RUN apt-get update && apt-get install -f -yq nodejs
 ############
 RUN apt-get update && apt-get install -y r-base
 
-################
-# Install Python
-################
-# Install Python 3.10 and add to system python path
-# Note that miniconda does come with it's own installation of python,
-# but it is cleaner to do a proper system instalation here and set the 
-# path properly
-RUN apt-get update && apt-get install -y python3.10 python3-pip
-RUN update-alternatives --install /usr/bin/python python /usr/bin/python3.10 1 \
-    && update-alternatives --set python /usr/bin/python3.10
+#################
+## Install Python
+#################
+## Install Python 3.10 and add to system python path
+## Note that miniconda does come with it's own installation of python,
+## but it is cleaner to do a proper system instalation here and set the
+## path properly
+#RUN apt-get update && apt-get install -y python3.10 python3-pip
+#RUN update-alternatives --install /usr/bin/python python /usr/bin/python3.10 1 \
+#    && update-alternatives --set python /usr/bin/python3.10
+
+###################
+# Install Miniconda
+###################
+## CONDA should not be used by terra devs, but is a widely used tools
+## to manage python environments in a runtime and we should provide it to users
+ENV CONDA_HOME /opt/conda
+RUN curl -so $HOME/miniconda.sh https://repo.anaconda.com/miniconda/Miniconda3-py310_23.5.1-0-Linux-x86_64.sh \
+    && chmod +x $HOME/miniconda.sh \
+    && $HOME/miniconda.sh -b -p $CONDA_HOME \
+    && rm $HOME/miniconda.sh
+ENV PATH "${PATH}:${CONDA_HOME}/bin"
 
 ############################
 # Manage python dependencies
@@ -134,18 +146,6 @@ RUN poetry config virtualenvs.create false
 COPY poetry.lock .
 COPY pyproject.toml .
 RUN poetry install --no-cache --no-interaction
-
-###################
-# Install Miniconda
-###################
-## CONDA should not be used by terra devs, but is a widely used tools
-## to manage python environments in a runtime and we should provide it to users
-ENV CONDA_HOME /opt/conda
-RUN curl -so $HOME/miniconda.sh https://repo.anaconda.com/miniconda/Miniconda3-py310_23.5.1-0-Linux-x86_64.sh \
-    && chmod +x $HOME/miniconda.sh \
-    && $HOME/miniconda.sh -b -p $CONDA_HOME \
-    && rm $HOME/miniconda.sh
-ENV PATH "${PATH}:${CONDA_HOME}/bin"
 
 # #######################
 # # Utilities
