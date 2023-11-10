@@ -34,8 +34,8 @@ RUN useradd -m -s /bin/bash -N -u $WELDER_UID $WELDER_USER
 # without password so they can install the necessary packages that they 
 # want to use on the docker container
 RUN mkdir -p /etc/sudoers.d \
-        && echo "$USER ALL=(ALL) NOPASSWD: /usr/bin/apt-get install *, /opt/conda/bin/conda install *, /opt/poetry/bin/poetry install" > /etc/sudoers.d/$USER \
-        && chmod 0440 /etc/sudoers.d/$USER
+    && echo "$USER ALL=(ALL) NOPASSWD: /usr/bin/apt-get install *, /opt/conda/bin/conda install *, /opt/poetry/bin/poetry install" > /etc/sudoers.d/$USER \
+    && chmod 0440 /etc/sudoers.d/$USER
 
 #######################
 # Prerequisites
@@ -123,7 +123,9 @@ ENV CONDA_HOME /opt/conda
 RUN curl -so $HOME/miniconda.sh https://repo.anaconda.com/miniconda/Miniconda3-py310_23.5.1-0-Linux-x86_64.sh \
     && chmod +x $HOME/miniconda.sh \
     && $HOME/miniconda.sh -b -p $CONDA_HOME \
-    && rm $HOME/miniconda.sh
+    && rm $HOME/miniconda.sh \
+    && update-alternatives --install ${CONDA_HOME}/bin/python python ${CONDA_HOME}/bin/python3.10 1 \
+    && update-alternatives --set python ${CONDA_HOME}/bin/python3.10
 ENV PATH "${PATH}:${CONDA_HOME}/bin"
 
 ############################
