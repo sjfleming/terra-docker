@@ -52,24 +52,24 @@ RUN apt-get update && apt-get install -yq --no-install-recommends \
     nano \
     procps \
     lsb-release \
-    # python requirements
-    checkinstall \
-    build-essential \
-    zlib1g-dev \
-    # pip requirements
-    libssl-dev \
-    libbz2-dev \
-    libreadline-dev \
-    libsqlite3-dev \
-    libexempi8 \
+#    # python requirements
+#    checkinstall \
+#    build-essential \
+#    zlib1g-dev \
+#    # pip requirements
+#    libssl-dev \
+#    libbz2-dev \
+#    libreadline-dev \
+#    libsqlite3-dev \
+#    libexempi8 \
     libnode-dev \
-    llvm \
-    libncurses5-dev \
-    libncursesw5-dev \
-    tk-dev \
-    libffi-dev \
-    liblzma-dev \
-    python3-openssl \
+#    llvm \
+#    libncurses5-dev \
+#    libncursesw5-dev \
+#    tk-dev \
+#    libffi-dev \
+#    liblzma-dev \
+#    python3-openssl \
     # install script requirements
     locales \
     # for ssh-agent and ssh-add
