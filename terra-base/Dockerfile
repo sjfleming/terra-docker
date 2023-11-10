@@ -121,11 +121,11 @@ RUN update-alternatives --install /usr/bin/python python /usr/bin/python3.10 1 \
 ## manage dependencies - Should be used by Terra devs
 # Install Poetry
 ENV POETRY_HOME /opt/poetry
-RUN curl -sSL https://install.python-poetry.org | POETRY_HOME=$POETRY_HOME python3 \
-    && poetry self update ${POETRY_VERSION}
 # Append '/home/jupyter/.local/bin' to PATH
 # poetry docs: https://python-poetry.org/docs/
 ENV PATH "${PATH}:${POETRY_HOME}/bin"
+RUN curl -sSL https://install.python-poetry.org | POETRY_HOME=$POETRY_HOME python3 \
+    && poetry self update ${POETRY_VERSION}
 
 # Prevent poetry from creating a virtual environment (we want to install on the docker system python)
 RUN poetry config virtualenvs.create false
