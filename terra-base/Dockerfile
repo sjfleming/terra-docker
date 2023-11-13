@@ -120,13 +120,15 @@ RUN apt-get update && apt-get install -y r-base
 ## CONDA should not be used by terra devs, but is a widely used tools
 ## to manage python environments in a runtime and we should provide it to users
 ENV CONDA_HOME /opt/conda
+ENV PATH "${PATH}:${CONDA_HOME}/bin"
 RUN curl -so $HOME/miniconda.sh https://repo.anaconda.com/miniconda/Miniconda3-py310_23.5.1-0-Linux-x86_64.sh \
     && chmod +x $HOME/miniconda.sh \
     && $HOME/miniconda.sh -b -p $CONDA_HOME \
     && rm $HOME/miniconda.sh \
+    && conda init \
     && update-alternatives --install ${CONDA_HOME}/bin/python python ${CONDA_HOME}/bin/python3.10 1 \
-    && update-alternatives --set python ${CONDA_HOME}/bin/python3.10
-ENV PATH "${PATH}:${CONDA_HOME}/bin"
+    && update-alternatives --set python ${CONDA_HOME}/bin/python3.10 \
+    && update-alternatives --set python3 ${CONDA_HOME}/bin/python3.10
 
 ############################
 # Manage python dependencies
