@@ -120,7 +120,7 @@ RUN mkdir -p $GCLOUD_DIR \
     && conda install -y -c conda-forge crcmod \
     && gsutil version -l \
     && chown -R $USER:users $HOME/.conda \
-    && chown -R $USER:users $HOME/.config/gcloud \
+    && chown -R $USER:users $HOME/.config/gcloud
 
 #############
 ## Install R
