@@ -60,10 +60,10 @@ RUN apt-get update && apt-get install -yq --no-install-recommends \
 #    libssl-dev \
 #    libbz2-dev \
 #    libreadline-dev \
-#    libsqlite3-dev \
-#    libexempi8 \
+    libsqlite3-dev \
+    libexempi8 \
     libnode-dev \
-#    llvm \
+    llvm \
 #    libncurses5-dev \
 #    libncursesw5-dev \
 #    tk-dev \
@@ -139,11 +139,9 @@ ENV POETRY_HOME /opt/poetry
 # Append '/home/jupyter/.local/bin' to PATH
 # poetry docs: https://python-poetry.org/docs/
 ENV PATH "${PATH}:${POETRY_HOME}/bin"
-RUN curl -sSL https://install.python-poetry.org | POETRY_HOME=$POETRY_HOME python3 \
-    && poetry self update ${POETRY_VERSION}
-
-# Prevent poetry from creating a virtual environment (we want to install on the docker system python)
-RUN poetry config virtualenvs.create false
+RUN curl -sSL https://install.python-poetry.org | POETRY_HOME=$POETRY_HOME python3 - --version ${POETRY_VERSION} \
+    # Prevent poetry from creating a virtual environment (we want to install on the docker system python)
+    && poetry config virtualenvs.create false
 
 # Install python dependencies with poetry
 COPY poetry.lock .
