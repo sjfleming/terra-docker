@@ -12,6 +12,7 @@ ENV JUPYTER_HOME /etc/jupyter
 ENV JUPYTER_KERNELSPEC_DIR /usr/local/share/jupyter
 # We need node >18 for jupyter to work
 ENV NODE_MAJOR 20
+ENV POETRY_VERSION 1.6.1
 
 #######################
 # Users Setup
@@ -120,7 +121,7 @@ RUN update-alternatives --install /usr/bin/python python /usr/bin/python3.10 1 \
 ## manage dependencies - Should be used by Terra devs
 # Install Poetry
 ENV POETRY_HOME /opt/poetry
-RUN curl -sSL https://install.python-poetry.org | POETRY_HOME=$POETRY_HOME python3
+RUN curl -sSL https://install.python-poetry.org | POETRY_HOME=$POETRY_HOME python3 - --version ${POETRY_VERSION}
 # Append '/home/jupyter/.local/bin' to PATH
 # poetry docs: https://python-poetry.org/docs/
 ENV PATH "${PATH}:${POETRY_HOME}/bin"
