@@ -127,7 +127,8 @@ RUN curl -so $HOME/miniconda.sh https://repo.anaconda.com/miniconda/Miniconda3-p
     && rm $HOME/miniconda.sh \
     && conda init \
     && update-alternatives --install ${CONDA_HOME}/bin/python python ${CONDA_HOME}/bin/python3.10 1 \
-    && update-alternatives --set python ${CONDA_HOME}/bin/python3.10
+    && update-alternatives --set python ${CONDA_HOME}/bin/python3.10 \
+    && ln -s ${CONDA_HOME}/include/python3.10 /usr/include/python3.10
 
 ############################
 # Manage python dependencies
