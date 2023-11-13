@@ -13,6 +13,7 @@ ENV JUPYTER_KERNELSPEC_DIR /usr/local/share/jupyter
 # We need node >18 for jupyter to work
 ENV NODE_MAJOR 20
 ENV POETRY_VERSION 1.6.1
+ENV GOOGLE_CLOUD_CLI_VERSION="454.0.0"
 
 #######################
 # Users Setup
@@ -68,8 +69,8 @@ RUN apt-get update && apt-get install -yq --no-install-recommends \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-RUN curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key --keyring /usr/share/keyrings/cloud.google.gpg add -
-RUN curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -
+RUN curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key --keyring /usr/share/keyrings/cloud.google.gpg add - \
+    && curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -
 
 # Install Node >18 (needed for jupyterlab)
 #RUN apt-get update && apt-get install -yq --no-install-recommends
@@ -96,6 +97,7 @@ RUN curl -so $HOME/miniconda.sh https://repo.anaconda.com/miniconda/Miniconda3-p
     && conda init \
     && update-alternatives --install ${CONDA_HOME}/bin/python python ${CONDA_HOME}/bin/python3.10 1 \
     && update-alternatives --set python ${CONDA_HOME}/bin/python3.10 \
+    # this softlink allows gcc to find Python.h
     && ln -s ${CONDA_HOME}/include/python3.10 /usr/include/python3.10
 
 #############
@@ -110,18 +112,19 @@ RUN apt-get update && apt-get install -y r-base \
 ############################
 ## POETRY is the prefered tool to create virtual environments and
 ## manage dependencies - Should be used by Terra devs
-# Install Poetry
 ENV POETRY_HOME /opt/poetry
 # Append '/home/jupyter/.local/bin' to PATH
 # poetry docs: https://python-poetry.org/docs/
 ENV PATH "${PATH}:${POETRY_HOME}/bin"
-RUN curl -sSL https://install.python-poetry.org | POETRY_HOME=$POETRY_HOME python3 - --version ${POETRY_VERSION} \
-    # Prevent poetry from creating a virtual environment (we want to install on the docker system python)
-    && poetry config virtualenvs.create false
-
-# Install python dependencies with poetry
+# copy python dependencies
 COPY poetry.lock pyproject.toml ./
-RUN poetry install --no-dev --no-cache --no-interaction
+#RUN #curl -sSL https://install.python-poetry.org | POETRY_HOME=$POETRY_HOME python3 - --version ${POETRY_VERSION} \
+# Install poetry
+RUN pip install poetry==${POETRY_VERSION} \
+    # Prevent poetry from creating a virtual environment (we want to install on the docker system python)
+    && poetry config virtualenvs.create false \
+    # Install python dependencies with poetry
+    && poetry install --no-dev --no-cache --no-interaction
 
 # #######################
 # # Utilities
