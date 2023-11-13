@@ -137,7 +137,7 @@ COPY poetry.lock .
 COPY pyproject.toml .
 RUN curl -sSL https://install.python-poetry.org | POETRY_HOME=$POETRY_HOME python3 - --version ${POETRY_VERSION} \
 # Install poetry
-RUN #pip install poetry==${POETRY_VERSION} \
+#RUN #pip install poetry==${POETRY_VERSION} \
     # Prevent poetry from creating a virtual environment (we want to install on the docker system python)
     && poetry config virtualenvs.create false \
     # Install python dependencies with poetry
