@@ -104,7 +104,7 @@ RUN curl -so $HOME/miniconda.sh https://repo.anaconda.com/miniconda/Miniconda3-p
 #####################################
 # Install gsutil with compiled crcmod
 #####################################
-ENV $GCLOUD_DIR /opt/gcloud
+ENV GCLOUD_DIR /opt/gcloud
 RUN mkdir -p $GCLOUD_DIR \
     && curl -so $GCLOUD_DIR/google-cloud-cli.tar.gz \
     https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-cli-${GOOGLE_CLOUD_CLI_VERSION}-linux-x86_64.tar.gz \
