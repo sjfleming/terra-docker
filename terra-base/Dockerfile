@@ -100,6 +100,28 @@ RUN curl -so $HOME/miniconda.sh https://repo.anaconda.com/miniconda/Miniconda3-p
     # this softlink allows gcc to find Python.h
     && ln -s ${CONDA_HOME}/include/python3.10 /usr/include/python3.10
 
+
+#####################################
+# Install gsutil with compiled crcmod
+#####################################
+ENV $GCLOUD_DIR /opt/gcloud
+RUN mkdir -p $GCLOUD_DIR \
+    && curl -so $GCLOUD_DIR/google-cloud-cli.tar.gz \
+    https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-cli-${GOOGLE_CLOUD_CLI_VERSION}-linux-x86_64.tar.gz \
+    && tar -xzf $GCLOUD_DIR/google-cloud-cli.tar.gz -C $GCLOUD_DIR \
+    && .$GCLOUD_DIR/google-cloud-sdk/install.sh --install-python false --usage-reporting false --rc-path $HOME/.bashrc \
+    # manual symlinks since .bashrc is not getting sourced and PATH is getting overwritten in Terra Cloud Environment
+    && ln -s $GCLOUD_DIR/google-cloud-sdk/bin/gsutil /usr/bin/gsutil \
+    && ln -s $GCLOUD_DIR/google-cloud-sdk/bin/anthoscli /usr/bin/anthoscli \
+    && ln -s $GCLOUD_DIR/google-cloud-sdk/bin/bq /usr/bin/bq \
+    && ln -s $GCLOUD_DIR/google-cloud-sdk/bin/docker-credential-gcloud /usr/bin/docker-credential-gcloud \
+    && ln -s $GCLOUD_DIR/google-cloud-sdk/bin/gcloud /usr/bin/gcloud \
+    # creates the directory $HOME/.config/gcloud/configurations \
+    && conda install -y -c conda-forge crcmod \
+    && gsutil version -l \
+    && chown -R $USER:users $HOME/.conda \
+    && chown -R $USER:users $HOME/.config/gcloud \
+
 #############
 ## Install R
 #############
