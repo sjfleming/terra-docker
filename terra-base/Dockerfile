@@ -133,7 +133,8 @@ ENV POETRY_HOME /opt/poetry
 # poetry docs: https://python-poetry.org/docs/
 ENV PATH "${PATH}:${POETRY_HOME}/bin"
 # copy python dependencies
-COPY poetry.lock pyproject.toml ./
+COPY poetry.lock .
+COPY pyproject.toml .
 RUN curl -sSL https://install.python-poetry.org | POETRY_HOME=$POETRY_HOME python3 - --version ${POETRY_VERSION} \
 # Install poetry
 RUN #pip install poetry==${POETRY_VERSION} \
