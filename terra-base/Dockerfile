@@ -55,7 +55,7 @@ RUN apt-get update && apt-get install -yq --no-install-recommends \
 #    # python requirements
 #    checkinstall \
 #    build-essential \
-    zlib1g-dev \
+#    zlib1g-dev \
 #    # pip requirements
 #    libssl-dev \
 #    libbz2-dev \
@@ -130,13 +130,13 @@ RUN curl -so $HOME/miniconda.sh https://repo.anaconda.com/miniconda/Miniconda3-p
 #############
 ## Install R
 #############
-#RUN apt-get update && apt-get install -y r-base \
-#    && apt-get clean \
-#    && rm -rf /var/lib/apt/lists/*
-RUN conda install r-base \
-    && conda clean -yaf \
-    # link the gcc compiler (installed as part of r-base) for later use (by poetry in particular)
-    && ln -s ${CONDA_HOME}/bin/x86_64-conda-linux-gnu-gcc /usr/bin/x86_64-linux-gnu-gcc
+RUN apt-get update && apt-get install -y r-base \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
+#RUN #conda install r-base \
+#    && conda clean -yaf \
+#    # link the gcc compiler (installed as part of r-base) for later use (by poetry in particular)
+#    && ln -s ${CONDA_HOME}/bin/x86_64-conda-linux-gnu-gcc /usr/bin/x86_64-linux-gnu-gcc
 
 ############################
 # Manage python dependencies
