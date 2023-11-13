@@ -134,7 +134,9 @@ RUN curl -so $HOME/miniconda.sh https://repo.anaconda.com/miniconda/Miniconda3-p
 #    && apt-get clean \
 #    && rm -rf /var/lib/apt/lists/*
 RUN conda install r-base \
-    && conda clean -yaf
+    && conda clean -yaf \
+    # link the gcc compiler (installed as part of r-base) for later use (by poetry in particular)
+    && ln -s ${CONDA_HOME}/bin/x86_64-conda-linux-gnu-gcc x86_64-linux-gnu-gcc
 
 ############################
 # Manage python dependencies
