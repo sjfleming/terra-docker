@@ -100,13 +100,6 @@ RUN apt-get update && apt-get install -f -yq nodejs \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-############
-# Install R
-############
-RUN apt-get update && apt-get install -y r-base \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/*
-
 #################
 ## Install Python
 #################
@@ -133,6 +126,15 @@ RUN curl -so $HOME/miniconda.sh https://repo.anaconda.com/miniconda/Miniconda3-p
     && update-alternatives --install ${CONDA_HOME}/bin/python python ${CONDA_HOME}/bin/python3.10 1 \
     && update-alternatives --set python ${CONDA_HOME}/bin/python3.10 \
     && ln -s ${CONDA_HOME}/include/python3.10 /usr/include/python3.10
+
+#############
+## Install R
+#############
+#RUN apt-get update && apt-get install -y r-base \
+#    && apt-get clean \
+#    && rm -rf /var/lib/apt/lists/*
+RUN conda install r-base \
+    && conda clean -yaf
 
 ############################
 # Manage python dependencies
