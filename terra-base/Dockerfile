@@ -55,7 +55,7 @@ RUN apt-get update && apt-get install -yq --no-install-recommends \
 #    # python requirements
 #    checkinstall \
 #    build-essential \
-#    zlib1g-dev \
+    zlib1g-dev \
 #    # pip requirements
 #    libssl-dev \
 #    libbz2-dev \
