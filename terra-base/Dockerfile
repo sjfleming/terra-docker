@@ -120,9 +120,8 @@ RUN curl -sSL https://install.python-poetry.org | POETRY_HOME=$POETRY_HOME pytho
     && poetry config virtualenvs.create false
 
 # Install python dependencies with poetry
-COPY poetry.lock .
-COPY pyproject.toml .
-RUN poetry install --no-cache --no-interaction
+COPY poetry.lock pyproject.toml ./
+RUN poetry install --no-dev --no-cache --no-interaction
 
 # #######################
 # # Utilities
