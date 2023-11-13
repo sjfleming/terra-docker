@@ -62,12 +62,12 @@ RUN apt-get update && apt-get install -yq --no-install-recommends \
     bzip2 \
     # git
     git \
+    # R \
+    r-base \
     # Uncomment en_US.UTF-8 for inclusion in generation
     && sed -i 's/^# *\(en_US.UTF-8\)/\1/' /etc/locale.gen \
     # Generate locale
     && locale-gen \
-    # R \
-    r-base \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
