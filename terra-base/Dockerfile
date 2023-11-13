@@ -66,6 +66,8 @@ RUN apt-get update && apt-get install -yq --no-install-recommends \
     && sed -i 's/^# *\(en_US.UTF-8\)/\1/' /etc/locale.gen \
     # Generate locale
     && locale-gen \
+    # R \
+    r-base \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
@@ -100,7 +102,6 @@ RUN curl -so $HOME/miniconda.sh https://repo.anaconda.com/miniconda/Miniconda3-p
     # this softlink allows gcc to find Python.h
     && ln -s ${CONDA_HOME}/include/python3.10 /usr/include/python3.10
 
-
 #####################################
 # Install gsutil with compiled crcmod
 #####################################
@@ -122,13 +123,6 @@ RUN mkdir -p $GCLOUD_DIR \
     && chown -R $USER:users $HOME/.conda \
     && chown -R $USER:users $HOME/.config/gcloud
 
-#############
-## Install R
-#############
-RUN apt-get update && apt-get install -y r-base \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/*
-
 ############################
 # Manage python dependencies
 ############################
@@ -140,17 +134,17 @@ ENV POETRY_HOME /opt/poetry
 ENV PATH "${PATH}:${POETRY_HOME}/bin"
 # copy python dependencies
 COPY poetry.lock pyproject.toml ./
-#RUN #curl -sSL https://install.python-poetry.org | POETRY_HOME=$POETRY_HOME python3 - --version ${POETRY_VERSION} \
+RUN curl -sSL https://install.python-poetry.org | POETRY_HOME=$POETRY_HOME python3 - --version ${POETRY_VERSION} \
 # Install poetry
-RUN pip install poetry==${POETRY_VERSION} \
+RUN #pip install poetry==${POETRY_VERSION} \
     # Prevent poetry from creating a virtual environment (we want to install on the docker system python)
     && poetry config virtualenvs.create false \
     # Install python dependencies with poetry
     && poetry install --no-dev --no-cache --no-interaction
 
-# #######################
-# # Utilities
-# #######################
+#######################
+# Utilities
+#######################
 COPY scripts $JUPYTER_HOME/scripts
 COPY custom $JUPYTER_HOME/custom
 COPY jupyter_notebook_config.py $JUPYTER_HOME
